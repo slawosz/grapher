@@ -47,3 +47,37 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+desc "Setup Active::Record test database"
+task :setup_database do
+  require "active_record"
+
+  begin
+    ActiveRecord::Migration.drop_table(:posts)
+    ActiveRecord::Migration.drop_table(:comments)
+  rescue
+    nil
+  end
+  ActiveRecord::Base.establish_connection(
+    "adapter" => "sqlite3",
+    "database"  => "#{File.dirname(__FILE__)}/spec/spec.db"
+  )
+  
+  ActiveRecord::Migration.create_table(:posts) do |t|
+    t.string :title
+    t.text   :content
+    
+    t.timestamps
+  end
+
+  ActiveRecord::Migration.create_table(:comments) do |t|
+    t.text    :content
+    t.string  :author
+    t.integer :post_id
+    
+    t.timestamps
+  end
+  Dir["#{File.dirname(__FILE__)}/spec/models/**/*.rb"].each {|f| require f}
+  post1 = Post.create(:title => "First post", :content => "Lorem ipsum")
+  post2 = Post.create(:title => "Second post", :content => "Other post")
+end

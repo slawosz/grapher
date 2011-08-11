@@ -1,9 +1,3 @@
-class Post
+class Post < ActiveRecord::Base
   has_many :comments
-
-  def self.create_table
-
-  end
-
-  def self.
 end
