@@ -59,9 +59,10 @@ task :setup_database do
     nil
   end
   ActiveRecord::Base.establish_connection(
-    "adapter" => "sqlite3",
-    "database"  => "#{File.dirname(__FILE__)}/spec/spec.db"
-  )
+                                          "adapter" => "mysql",
+                                          "username" => "root",
+                                          "database" => "grapher_development"
+                                          )
   
   ActiveRecord::Migration.create_table(:posts) do |t|
     t.string :title
