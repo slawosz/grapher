@@ -3,7 +3,9 @@ require 'spec_helper'
 describe Grapher::Node do
 
   context "Convert ActiveRecord to Neo4j" do
-    before(:each) { Grapher::Node.model_to_node(Post) }
+    before(:all) do
+      Grapher::Node.model_to_node(Post)
+    end
     
     it "should create proper class for neo4j model" do
       PostNode.superclass.should == Neo4j::Rails::Model
