@@ -6,7 +6,7 @@ describe Grapher::Node do
     before(:all) do
       Grapher::Node.model_to_node(Post)
     end
-    
+
     it "should create proper class for neo4j model" do
       PostNode.superclass.should == Neo4j::Rails::Model
     end
@@ -20,10 +20,15 @@ describe Grapher::Node do
 
     it "should has the same data as original model" do
       [:title, :content].each do |attribute|
-        ar_posts = Post.all.map(&attribute).sort
-        neo4j_posts = PostNode.all.map(&attribute).sort
-        neo4j_posts.should == ar_posts
+	ar_posts = Post.all.map(&attribute).sort
+	neo4j_posts = PostNode.all.map(&attribute).sort
+	neo4j_posts.should == ar_posts
       end
+    end
+
+
+    it "should know its base model" do
+      PostNode.base_model.should == Post 
     end
 
   end

@@ -1,5 +1,3 @@
-require 'pry'
-
 module Grapher
   class Node
     def self.model_to_node(model)
